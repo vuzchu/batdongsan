@@ -16,20 +16,29 @@ He thong co phan quyen 2 vai tro:
 
 ## Cai dat
 
-1. Tao database va import schema + du lieu mau:
+Gia tri mac dinh trong `config/database.php` da khop san voi cau hinh MySQL cua **XAMPP**
+(host `localhost`, port `3306`, user `root`, khong mat khau) nen thong thuong khong can sua gi them.
+
+1. Copy thu muc du an vao `htdocs` cua XAMPP, vi du: `C:\xampp\htdocs\batdongsan` (Windows) hoac
+   `/Applications/XAMPP/htdocs/batdongsan` (macOS).
+
+2. Khoi dong **Apache** va **MySQL** trong XAMPP Control Panel.
+
+3. Tao database va import schema + du lieu mau — co the dung phpMyAdmin
+   (`http://localhost/phpmyadmin`, tab Import) hoac dong lenh:
 
    ```bash
-   mysql -u root -p -e "CREATE DATABASE batdongsan CHARACTER SET utf8mb4;"
-   mysql -u root -p batdongsan < database/schema.sql
-   mysql -u root -p batdongsan < database/seed.sql
+   mysql -u root -e "CREATE DATABASE batdongsan CHARACTER SET utf8mb4;"
+   mysql -u root batdongsan < database/schema.sql
+   mysql -u root batdongsan < database/seed.sql
    ```
 
-2. Cau hinh ket noi database bang bien moi truong (hoac sua truc tiep gia tri mac dinh trong
-   `config/database.php`):
+4. Neu MySQL cua ban co dat mat khau cho `root`, hoac dung host/port/user khac, cau hinh lai qua bien
+   moi truong (hoac sua truc tiep gia tri mac dinh trong `config/database.php`):
 
    | Bien        | Mo ta                         | Mac dinh    |
    |-------------|--------------------------------|-------------|
-   | `DB_HOST`   | Host MySQL                     | `127.0.0.1` |
+   | `DB_HOST`   | Host MySQL                     | `localhost` |
    | `DB_PORT`   | Port MySQL                     | `3306`      |
    | `DB_NAME`   | Ten database                   | `batdongsan`|
    | `DB_USER`   | User database                  | `root`      |
@@ -37,18 +46,12 @@ He thong co phan quyen 2 vai tro:
    | `APP_URL`   | Base URL neu chay duoi subfolder | (rong)    |
    | `APP_DEBUG` | Bat hien thi loi chi tiet (`1`) | tat        |
 
-3. Dam bao thu muc `uploads/properties/` co quyen ghi (`chmod 755` hoac tuong duong) de upload hinh anh
-   bat dong san.
+5. Dam bao thu muc `uploads/properties/` co quyen ghi de upload hinh anh bat dong san.
 
-4. Chay thu bang PHP built-in server:
+6. Mo trinh duyet vao `http://localhost/batdongsan/index.php`.
 
-   ```bash
-   DB_USER=root DB_PASS=your_password php -S localhost:8000
-   ```
-
-   Roi mo `http://localhost:8000/index.php`.
-
-   Voi may chu Apache/Nginx, tro document root vao thu muc goc cua du an.
+   (Co the chay thu nhanh bang PHP built-in server thay vi XAMPP: `php -S localhost:8000`, roi mo
+   `http://localhost:8000/index.php`.)
 
 ## Tai khoan demo (tu file `database/seed.sql`)
 

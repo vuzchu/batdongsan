@@ -3,7 +3,8 @@
  * Ket noi database dung PDO. Cau hinh qua bien moi truong, co gia tri mac dinh cho moi truong local.
  */
 
-$dbHost = getenv('DB_HOST') ?: '127.0.0.1';
+// Gia tri mac dinh khop voi cau hinh MySQL cua XAMPP (host localhost, user root, khong mat khau).
+$dbHost = getenv('DB_HOST') ?: 'localhost';
 $dbPort = getenv('DB_PORT') ?: '3306';
 $dbName = getenv('DB_NAME') ?: 'batdongsan';
 $dbUser = getenv('DB_USER') ?: 'root';
