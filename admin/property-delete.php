@@ -25,9 +25,9 @@ if ($id) {
             }
         }
         $pdo->prepare('DELETE FROM properties WHERE id = ?')->execute([$id]);
-        flash('success', 'Da xoa bat dong san.');
+        flash('success', 'Đã xóa bất động sản.');
     } else {
-        flash('error', 'Ban khong co quyen xoa bat dong san nay.');
+        flash('error', 'Bạn không có quyền xóa bất động sản này.');
     }
 }
 

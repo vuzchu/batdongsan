@@ -22,16 +22,18 @@ CREATE TABLE IF NOT EXISTS users (
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
--- Dia diem: Thanh pho / Tinh -> Quan / Huyen
+-- Dia diem: Tinh/Thanh pho -> Phuong/Xa (dong bo tu provinces.open-api.vn qua sync-provinces.php)
 -- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS cities (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    code INT UNIQUE DEFAULT NULL COMMENT 'Ma tinh/thanh theo provinces.open-api.vn, dung de dong bo lai',
     name VARCHAR(120) NOT NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS districts (
     id INT AUTO_INCREMENT PRIMARY KEY,
     city_id INT NOT NULL,
+    code INT UNIQUE DEFAULT NULL COMMENT 'Ma phuong/xa theo provinces.open-api.vn, dung de dong bo lai',
     name VARCHAR(120) NOT NULL,
     FOREIGN KEY (city_id) REFERENCES cities(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
@@ -84,11 +86,22 @@ CREATE TABLE IF NOT EXISTS property_images (
     FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
+-- ---------------------------------------------------------------------
+-- Tien ich / dich vu: danh muc chung do admin quan ly, chon bang checkbox
+-- khi dang/sua tin thay vi go tay tung tin
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS amenities (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+) ENGINE=InnoDB;
+
 CREATE TABLE IF NOT EXISTS property_amenities (
     id INT AUTO_INCREMENT PRIMARY KEY,
     property_id INT NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE
+    amenity_id INT NOT NULL,
+    FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE,
+    FOREIGN KEY (amenity_id) REFERENCES amenities(id) ON DELETE CASCADE,
+    UNIQUE KEY uniq_property_amenity (property_id, amenity_id)
 ) ENGINE=InnoDB;
 
 CREATE INDEX idx_properties_search ON properties (city_id, district_id, property_type_id, transaction_type, status);

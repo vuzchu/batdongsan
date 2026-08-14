@@ -1,0 +1,2 @@
+SetEnv APP_URL /ten-thu-muc-du-an
+SetEnv IMGBB_API_KEY your_imgbb_api_key_here

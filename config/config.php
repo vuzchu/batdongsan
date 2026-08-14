@@ -16,5 +16,6 @@ define('UPLOAD_DIR', __DIR__ . '/../uploads/properties/');
 define('UPLOAD_URL', 'uploads/properties/');
 
 require_once __DIR__ . '/database.php';
+require_once __DIR__ . '/imgbb.php';
 require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../includes/auth.php';

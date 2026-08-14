@@ -8,18 +8,35 @@ function e(?string $value): string
     return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
 }
 
+function imageUrl(?string $path): string
+{
+    if (empty($path)) {
+        return BASE_URL . '/assets/images/placeholder.svg';
+    }
+    if (preg_match('#^https?://#i', $path)) {
+        return $path;
+    }
+    return BASE_URL . '/' . $path;
+}
+
 function formatPrice(float $price, string $unit = 'total'): string
 {
     if ($price >= 1000000000) {
         $formatted = rtrim(rtrim(number_format($price / 1000000000, 2, '.', ''), '0'), '.');
-        $text = $formatted . ' ty';
+        $text = $formatted . ' tỷ';
     } elseif ($price >= 1000000) {
         $formatted = rtrim(rtrim(number_format($price / 1000000, 1, '.', ''), '0'), '.');
-        $text = $formatted . ' trieu';
+        $text = $formatted . ' triệu';
     } else {
-        $text = number_format($price, 0, ',', '.') . ' d';
+        $text = number_format($price, 0, ',', '.') . ' đ';
     }
-    return $unit === 'month' ? $text . '/thang' : $text;
+    return $unit === 'month' ? $text . '/tháng' : $text;
+}
+
+function statusLabel(string $status): string
+{
+    $labels = ['available' => 'Còn hiệu lực', 'pending' => 'Chờ duyệt', 'sold' => 'Đã bán', 'rented' => 'Đã cho thuê'];
+    return $labels[$status] ?? $status;
 }
 
 function slugify(string $text): string
@@ -96,7 +113,7 @@ function verifyCsrf(): void
     $token = $_POST['csrf_token'] ?? '';
     if (!hash_equals($_SESSION['csrf_token'] ?? '', $token)) {
         http_response_code(400);
-        die('Phien lam viec khong hop le. Vui long tai lai trang va thu lai.');
+        die('Phiên làm việc không hợp lệ. Vui lòng tải lại trang và thử lại.');
     }
 }
 

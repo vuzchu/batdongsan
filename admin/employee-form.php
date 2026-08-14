@@ -9,7 +9,7 @@ if ($id) {
     $stmt->execute([$id]);
     $employee = $stmt->fetch();
     if (!$employee) {
-        flash('error', 'Khong tim thay nhan vien.');
+        flash('error', 'Không tìm thấy nhân viên.');
         redirect(BASE_URL . '/admin/employees.php');
     }
 }
@@ -34,16 +34,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form['is_active'] = isset($_POST['is_active']) ? 1 : 0;
     $password = $_POST['password'] ?? '';
 
-    if ($form['full_name'] === '') $errors[] = 'Vui long nhap ho ten.';
-    if ($form['email'] === '' || !filter_var($form['email'], FILTER_VALIDATE_EMAIL)) $errors[] = 'Email khong hop le.';
-    if (!$employee && $password === '') $errors[] = 'Vui long nhap mat khau cho nhan vien moi.';
-    if ($password !== '' && strlen($password) < 6) $errors[] = 'Mat khau phai co it nhat 6 ky tu.';
+    if ($form['full_name'] === '') $errors[] = 'Vui lòng nhập họ tên.';
+    if ($form['email'] === '' || !filter_var($form['email'], FILTER_VALIDATE_EMAIL)) $errors[] = 'Email không hợp lệ.';
+    if (!$employee && $password === '') $errors[] = 'Vui lòng nhập mật khẩu cho nhân viên mới.';
+    if ($password !== '' && strlen($password) < 6) $errors[] = 'Mật khẩu phải có ít nhất 6 ký tự.';
 
     if (!$errors) {
         $checkStmt = $pdo->prepare('SELECT id FROM users WHERE email = ? AND id != ?');
         $checkStmt->execute([$form['email'], $id]);
         if ($checkStmt->fetch()) {
-            $errors[] = 'Email nay da duoc su dung.';
+            $errors[] = 'Email này đã được sử dụng.';
         }
     }
 
@@ -56,17 +56,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt = $pdo->prepare('UPDATE users SET full_name=?, email=?, phone=?, zalo=?, facebook=?, is_active=? WHERE id=?');
                 $stmt->execute([$form['full_name'], $form['email'], $form['phone'], $form['zalo'], $form['facebook'], $form['is_active'], $id]);
             }
-            flash('success', 'Da cap nhat thong tin nhan vien.');
+            flash('success', 'Đã cập nhật thông tin nhân viên.');
         } else {
             $stmt = $pdo->prepare("INSERT INTO users (full_name, email, password_hash, role, phone, zalo, facebook, is_active) VALUES (?, ?, ?, 'employee', ?, ?, ?, ?)");
             $stmt->execute([$form['full_name'], $form['email'], password_hash($password, PASSWORD_BCRYPT), $form['phone'], $form['zalo'], $form['facebook'], $form['is_active']]);
-            flash('success', 'Da them nhan vien moi.');
+            flash('success', 'Đã thêm nhân viên mới.');
         }
         redirect(BASE_URL . '/admin/employees.php');
     }
 }
 
-$pageTitle = $employee ? 'Sua nhan vien' : 'Them nhan vien';
+$pageTitle = $employee ? 'Sửa nhân viên' : 'Thêm nhân viên';
 $activeNav = 'employees';
 require_once __DIR__ . '/includes/header.php';
 ?>
@@ -79,7 +79,7 @@ require_once __DIR__ . '/includes/header.php';
     <input type="hidden" name="id" value="<?= (int)$id ?>">
     <div class="form-row">
       <div class="form-group">
-        <label>Ho ten</label>
+        <label>Họ tên</label>
         <input type="text" name="full_name" required value="<?= e($form['full_name']) ?>">
       </div>
       <div class="form-group">
@@ -89,11 +89,11 @@ require_once __DIR__ . '/includes/header.php';
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>So dien thoai</label>
+        <label>Số điện thoại</label>
         <input type="text" name="phone" value="<?= e($form['phone']) ?>" placeholder="09xxxxxxxx">
       </div>
       <div class="form-group">
-        <label>Zalo (so dien thoai hoac ten dinh danh)</label>
+        <label>Zalo (số điện thoại hoặc tên định danh)</label>
         <input type="text" name="zalo" value="<?= e($form['zalo']) ?>" placeholder="09xxxxxxxx">
       </div>
     </div>
@@ -102,14 +102,14 @@ require_once __DIR__ . '/includes/header.php';
       <input type="text" name="facebook" value="<?= e($form['facebook']) ?>" placeholder="https://facebook.com/...">
     </div>
     <div class="form-group">
-      <label><?= $employee ? 'Mat khau moi (de trong neu khong doi)' : 'Mat khau' ?></label>
+      <label><?= $employee ? 'Mật khẩu mới (để trống nếu không đổi)' : 'Mật khẩu' ?></label>
       <input type="password" name="password" <?= $employee ? '' : 'required' ?>>
     </div>
     <div class="form-group">
-      <label><input type="checkbox" name="is_active" style="width:auto" <?= $form['is_active'] ? 'checked' : '' ?>> Dang lam viec</label>
+      <label><input type="checkbox" name="is_active" style="width:auto" <?= $form['is_active'] ? 'checked' : '' ?>> Đang làm việc</label>
     </div>
-    <button type="submit" class="btn btn-primary"><?= $employee ? 'Cap nhat' : 'Them nhan vien' ?></button>
-    <a href="<?= BASE_URL ?>/admin/employees.php" class="btn btn-outline">Huy</a>
+    <button type="submit" class="btn btn-primary"><?= $employee ? 'Cập nhật' : 'Thêm nhân viên' ?></button>
+    <a href="<?= BASE_URL ?>/admin/employees.php" class="btn btn-outline">Hủy</a>
   </form>
 </div>
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

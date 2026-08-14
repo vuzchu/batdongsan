@@ -3,7 +3,7 @@ require_once __DIR__ . '/../config/config.php';
 requireLogin();
 
 $user = currentUser();
-$pageTitle = isAdmin() ? 'Quan ly bat dong san' : 'Bat dong san cua toi';
+$pageTitle = isAdmin() ? 'Quản lý bất động sản' : 'Bất động sản của tôi';
 $activeNav = 'properties';
 
 $where = [];
@@ -48,50 +48,50 @@ require_once __DIR__ . '/includes/header.php';
       <form method="get" style="display:flex; gap:10px; flex-wrap:wrap;">
         <?php if (isAdmin()): ?>
           <select name="employee_id" onchange="this.form.submit()">
-            <option value="">Tat ca nhan vien</option>
+            <option value="">Tất cả nhân viên</option>
             <?php foreach ($employees as $emp): ?>
               <option value="<?= (int)$emp['id'] ?>" <?= (isset($_GET['employee_id']) && (int)$_GET['employee_id'] === (int)$emp['id']) ? 'selected' : '' ?>><?= e($emp['full_name']) ?></option>
             <?php endforeach; ?>
           </select>
         <?php endif; ?>
         <select name="status" onchange="this.form.submit()">
-          <option value="">Tat ca trang thai</option>
-          <?php foreach (['available' => 'Con hieu luc', 'pending' => 'Cho duyet', 'sold' => 'Da ban', 'rented' => 'Da cho thue'] as $val => $label): ?>
+          <option value="">Tất cả trạng thái</option>
+          <?php foreach (['available' => 'Còn hiệu lực', 'pending' => 'Chờ duyệt', 'sold' => 'Đã bán', 'rented' => 'Đã cho thuê'] as $val => $label): ?>
             <option value="<?= $val ?>" <?= (($_GET['status'] ?? '') === $val) ? 'selected' : '' ?>><?= $label ?></option>
           <?php endforeach; ?>
         </select>
       </form>
     </div>
-    <a href="<?= BASE_URL ?>/admin/property-form.php" class="btn btn-primary btn-sm">+ Dang tin moi</a>
+    <a href="<?= BASE_URL ?>/admin/property-form.php" class="btn btn-primary btn-sm">+ Đăng tin mới</a>
   </div>
 
   <div class="table-wrap">
     <table class="data-table">
       <thead>
         <tr>
-          <th></th><th>Tin dang</th><th>Loai</th><th>Khu vuc</th><th>Gia</th><th>Trang thai</th>
-          <?php if (isAdmin()): ?><th>Nhan vien</th><?php endif; ?><th>Thao tac</th>
+          <th></th><th>Tin đăng</th><th>Loại</th><th>Khu vực</th><th>Giá</th><th>Trạng thái</th>
+          <?php if (isAdmin()): ?><th>Nhân viên</th><?php endif; ?><th>Thao tác</th>
         </tr>
       </thead>
       <tbody>
         <?php if (empty($properties)): ?>
-          <tr><td colspan="8">Chua co bat dong san nao.</td></tr>
+          <tr><td colspan="8">Chưa có bất động sản nào.</td></tr>
         <?php endif; ?>
         <?php foreach ($properties as $p): ?>
           <tr>
-            <td><img class="table-thumb" src="<?= BASE_URL ?>/<?= e($p['image'] ?: 'assets/images/placeholder.svg') ?>" alt=""></td>
+            <td><img class="table-thumb" src="<?= e(imageUrl($p['image'])) ?>" alt=""></td>
             <td><a href="<?= BASE_URL ?>/property-detail.php?slug=<?= urlencode($p['slug']) ?>" target="_blank"><?= e($p['title']) ?></a></td>
             <td><?= e($p['type_name']) ?></td>
             <td><?= e($p['district_name']) ?>, <?= e($p['city_name']) ?></td>
             <td><?= e(formatPrice((float)$p['price'], $p['price_unit'])) ?></td>
-            <td><span class="status-pill status-<?= e($p['status']) ?>"><?= e($p['status']) ?></span></td>
-            <?php if (isAdmin()): ?><td><?= e($p['agent_name'] ?? 'Chua phan cong') ?></td><?php endif; ?>
+            <td><span class="status-pill status-<?= e($p['status']) ?>"><?= e(statusLabel($p['status'])) ?></span></td>
+            <?php if (isAdmin()): ?><td><?= e($p['agent_name'] ?? 'Chưa phân công') ?></td><?php endif; ?>
             <td class="table-actions">
-              <a class="btn btn-outline btn-sm" href="<?= BASE_URL ?>/admin/property-form.php?id=<?= (int)$p['id'] ?>">Sua</a>
-              <form method="post" action="<?= BASE_URL ?>/admin/property-delete.php" onsubmit="return confirm('Xoa bat dong san nay?');" style="display:inline;">
+              <a class="btn btn-outline btn-sm" href="<?= BASE_URL ?>/admin/property-form.php?id=<?= (int)$p['id'] ?>">Sửa</a>
+              <form method="post" action="<?= BASE_URL ?>/admin/property-delete.php" onsubmit="return confirm('Xóa bất động sản này?');" style="display:inline;">
                 <?= csrfField() ?>
                 <input type="hidden" name="id" value="<?= (int)$p['id'] ?>">
-                <button type="submit" class="btn btn-danger btn-sm">Xoa</button>
+                <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
               </form>
             </td>
           </tr>

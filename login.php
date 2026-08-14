@@ -13,21 +13,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
 
     if ($email === '' || $password === '') {
-        $error = 'Vui long nhap day du email va mat khau.';
+        $error = 'Vui lòng nhập đầy đủ email và mật khẩu.';
     } elseif (attemptLogin($pdo, $email, $password)) {
         redirect(BASE_URL . '/admin/dashboard.php');
     } else {
-        $error = 'Email hoac mat khau khong dung.';
+        $error = 'Email hoặc mật khẩu không đúng.';
     }
 }
 
-$pageTitle = 'Dang nhap - ' . SITE_NAME;
+$pageTitle = 'Đăng nhập - ' . SITE_NAME;
 require_once __DIR__ . '/includes/header.php';
 ?>
 <div class="auth-wrap">
   <div class="auth-card">
-    <h1>Dang nhap he thong</h1>
-    <p class="sub">Danh cho quan tri vien va nhan vien quan ly bat dong san.</p>
+    <h1>Đăng nhập hệ thống</h1>
+    <p class="sub">Dành cho quản trị viên và nhân viên quản lý bất động sản.</p>
 
     <?php if ($error): ?>
       <div class="alert alert-error"><?= e($error) ?></div>
@@ -40,15 +40,15 @@ require_once __DIR__ . '/includes/header.php';
         <input type="email" id="email" name="email" required value="<?= e($_POST['email'] ?? '') ?>">
       </div>
       <div class="form-group">
-        <label for="password">Mat khau</label>
+        <label for="password">Mật khẩu</label>
         <input type="password" id="password" name="password" required>
       </div>
-      <button type="submit" class="btn btn-primary btn-block">Dang nhap</button>
+      <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
     </form>
 
     <div class="demo-hint">
-      Tai khoan demo &mdash; Admin: <strong>admin@homeland.vn</strong> / <strong>Admin@123</strong><br>
-      Nhan vien: <strong>an.nguyen@homeland.vn</strong> / <strong>Nhanvien@123</strong>
+      Tài khoản demo &mdash; Admin: <strong>admin@homeland.vn</strong> / <strong>Admin@123</strong><br>
+      Nhân viên: <strong>an.nguyen@homeland.vn</strong> / <strong>Nhanvien@123</strong>
     </div>
   </div>
 </div>

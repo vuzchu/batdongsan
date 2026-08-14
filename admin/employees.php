@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../config/config.php';
 requireAdmin();
 
-$pageTitle = 'Quan ly nhan vien';
+$pageTitle = 'Quản lý nhân viên';
 $activeNav = 'employees';
 
 $employees = $pdo->query("
@@ -14,17 +14,17 @@ require_once __DIR__ . '/includes/header.php';
 ?>
 <div class="panel">
   <div class="panel-head">
-    <h2>Danh sach nhan vien</h2>
-    <a href="<?= BASE_URL ?>/admin/employee-form.php" class="btn btn-primary btn-sm">+ Them nhan vien</a>
+    <h2>Danh sách nhân viên</h2>
+    <a href="<?= BASE_URL ?>/admin/employee-form.php" class="btn btn-primary btn-sm">+ Thêm nhân viên</a>
   </div>
   <div class="table-wrap">
     <table class="data-table">
       <thead>
-        <tr><th>Ho ten</th><th>Email</th><th>Dien thoai</th><th>Zalo</th><th>Facebook</th><th>BDS phu trach</th><th>Trang thai</th><th>Thao tac</th></tr>
+        <tr><th>Họ tên</th><th>Email</th><th>Điện thoại</th><th>Zalo</th><th>Facebook</th><th>BĐS phụ trách</th><th>Trạng thái</th><th>Thao tác</th></tr>
       </thead>
       <tbody>
         <?php if (empty($employees)): ?>
-          <tr><td colspan="8">Chua co nhan vien nao.</td></tr>
+          <tr><td colspan="8">Chưa có nhân viên nào.</td></tr>
         <?php endif; ?>
         <?php foreach ($employees as $emp): ?>
           <tr>
@@ -34,13 +34,13 @@ require_once __DIR__ . '/includes/header.php';
             <td><?= e($emp['zalo'] ?: '-') ?></td>
             <td><?= $emp['facebook'] ? '<a href="' . e($emp['facebook']) . '" target="_blank">Link</a>' : '-' ?></td>
             <td><?= (int)$emp['total_properties'] ?></td>
-            <td><span class="status-pill <?= $emp['is_active'] ? 'status-available' : 'status-sold' ?>"><?= $emp['is_active'] ? 'Dang lam viec' : 'Ngung' ?></span></td>
+            <td><span class="status-pill <?= $emp['is_active'] ? 'status-available' : 'status-sold' ?>"><?= $emp['is_active'] ? 'Đang làm việc' : 'Ngừng' ?></span></td>
             <td class="table-actions">
-              <a class="btn btn-outline btn-sm" href="<?= BASE_URL ?>/admin/employee-form.php?id=<?= (int)$emp['id'] ?>">Sua</a>
-              <form method="post" action="<?= BASE_URL ?>/admin/employee-delete.php" onsubmit="return confirm('Xoa nhan vien nay? Cac bat dong san dang phu trach se ve trang thai chua phan cong.');" style="display:inline;">
+              <a class="btn btn-outline btn-sm" href="<?= BASE_URL ?>/admin/employee-form.php?id=<?= (int)$emp['id'] ?>">Sửa</a>
+              <form method="post" action="<?= BASE_URL ?>/admin/employee-delete.php" onsubmit="return confirm('Xóa nhân viên này? Các bất động sản đang phụ trách sẽ về trạng thái chưa phân công.');" style="display:inline;">
                 <?= csrfField() ?>
                 <input type="hidden" name="id" value="<?= (int)$emp['id'] ?>">
-                <button type="submit" class="btn btn-danger btn-sm">Xoa</button>
+                <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
               </form>
             </td>
           </tr>

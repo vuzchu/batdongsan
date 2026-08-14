@@ -31,7 +31,7 @@ function requireAdmin(): void
     requireLogin();
     if (!isAdmin()) {
         http_response_code(403);
-        die('Ban khong co quyen truy cap trang nay.');
+        die('Bạn không có quyền truy cập trang này.');
     }
 }
 

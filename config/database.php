@@ -20,5 +20,5 @@ try {
     ]);
 } catch (PDOException $e) {
     http_response_code(500);
-    die('Khong the ket noi den co so du lieu. Vui long kiem tra lai cau hinh trong config/database.php');
+    die('Không thể kết nối đến cơ sở dữ liệu. Vui lòng kiểm tra lại cấu hình trong config/database.php');
 }

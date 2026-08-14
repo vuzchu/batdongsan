@@ -16,4 +16,16 @@ document.addEventListener('DOMContentLoaded', function () {
       if (input) input.value = btn.dataset.value || '';
     });
   });
+
+  var mainImage = document.getElementById('detailMainImage');
+  var thumbs = document.querySelectorAll('.gallery-thumb');
+  if (mainImage && thumbs.length) {
+    thumbs.forEach(function (thumb) {
+      thumb.addEventListener('click', function () {
+        mainImage.src = thumb.src;
+        thumbs.forEach(function (t) { t.classList.remove('active'); });
+        thumb.classList.add('active');
+      });
+    });
+  }
 });

@@ -2,3 +2,4 @@
 !/uploads/properties/.gitkeep
 .DS_Store
 *.log
+/.htaccess

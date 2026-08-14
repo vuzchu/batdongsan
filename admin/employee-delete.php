@@ -12,7 +12,7 @@ if ($id) {
     $pdo->prepare('UPDATE properties SET employee_id = NULL WHERE employee_id = ?')->execute([$id]);
     $stmt = $pdo->prepare("DELETE FROM users WHERE id = ? AND role = 'employee'");
     $stmt->execute([$id]);
-    flash('success', 'Da xoa nhan vien.');
+    flash('success', 'Đã xóa nhân viên.');
 }
 
 redirect(BASE_URL . '/admin/employees.php');

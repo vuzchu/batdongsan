@@ -21,17 +21,17 @@ $user = currentUser();
       <span class="logo-text">HOMELAND<br><small>REAL ESTATE</small></span>
     </a>
     <nav class="main-nav">
-      <a href="<?= BASE_URL ?>/index.php">Trang chu</a>
-      <a href="<?= BASE_URL ?>/properties.php">Bat dong san</a>
-      <a href="<?= BASE_URL ?>/properties.php?transaction_type=sale">Mua ban</a>
-      <a href="<?= BASE_URL ?>/properties.php?transaction_type=rent">Cho thue</a>
+      <a href="<?= BASE_URL ?>/index.php">Trang chủ</a>
+      <a href="<?= BASE_URL ?>/properties.php">Bất động sản</a>
+      <a href="<?= BASE_URL ?>/properties.php?transaction_type=sale">Mua bán</a>
+      <a href="<?= BASE_URL ?>/properties.php?transaction_type=rent">Cho thuê</a>
     </nav>
     <div class="header-actions">
       <?php if ($user): ?>
-        <a href="<?= BASE_URL ?>/admin/dashboard.php" class="btn btn-outline">Bang dieu khien</a>
-        <a href="<?= BASE_URL ?>/logout.php" class="btn btn-primary">Dang xuat</a>
+        <a href="<?= BASE_URL ?>/admin/dashboard.php" class="btn btn-outline">Bảng điều khiển</a>
+        <a href="<?= BASE_URL ?>/logout.php" class="btn btn-primary">Đăng xuất</a>
       <?php else: ?>
-        <a href="<?= BASE_URL ?>/login.php" class="btn btn-primary">Dang nhap</a>
+        <a href="<?= BASE_URL ?>/login.php" class="btn btn-primary">Đăng nhập</a>
       <?php endif; ?>
     </div>
     <button class="nav-toggle" type="button" aria-label="Menu">&#9776;</button>

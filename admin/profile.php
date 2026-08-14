@@ -23,8 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $form['facebook'] = trim($_POST['facebook'] ?? '');
     $newPassword = $_POST['password'] ?? '';
 
-    if ($form['full_name'] === '') $errors[] = 'Vui long nhap ho ten.';
-    if ($newPassword !== '' && strlen($newPassword) < 6) $errors[] = 'Mat khau moi phai co it nhat 6 ky tu.';
+    if ($form['full_name'] === '') $errors[] = 'Vui lòng nhập họ tên.';
+    if ($newPassword !== '' && strlen($newPassword) < 6) $errors[] = 'Mật khẩu mới phải có ít nhất 6 ký tự.';
 
     if (!$errors) {
         if ($newPassword !== '') {
@@ -35,12 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ->execute([$form['full_name'], $form['phone'], $form['zalo'], $form['facebook'], $user['id']]);
         }
         $_SESSION['user']['full_name'] = $form['full_name'];
-        flash('success', 'Da cap nhat ho so ca nhan.');
+        flash('success', 'Đã cập nhật hồ sơ cá nhân.');
         redirect(BASE_URL . '/admin/profile.php');
     }
 }
 
-$pageTitle = 'Ho so ca nhan';
+$pageTitle = 'Hồ sơ cá nhân';
 $activeNav = 'profile';
 require_once __DIR__ . '/includes/header.php';
 ?>
@@ -51,7 +51,7 @@ require_once __DIR__ . '/includes/header.php';
   <form method="post" action="">
     <?= csrfField() ?>
     <div class="form-group">
-      <label>Ho ten</label>
+      <label>Họ tên</label>
       <input type="text" name="full_name" required value="<?= e($form['full_name']) ?>">
     </div>
     <div class="form-group">
@@ -60,7 +60,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>So dien thoai (hien thi o trang chi tiet BDS)</label>
+        <label>Số điện thoại (hiển thị ở trang chi tiết BĐS)</label>
         <input type="text" name="phone" value="<?= e($form['phone']) ?>" placeholder="09xxxxxxxx">
       </div>
       <div class="form-group">
@@ -73,10 +73,10 @@ require_once __DIR__ . '/includes/header.php';
       <input type="text" name="facebook" value="<?= e($form['facebook']) ?>" placeholder="https://facebook.com/...">
     </div>
     <div class="form-group">
-      <label>Mat khau moi (de trong neu khong doi)</label>
+      <label>Mật khẩu mới (để trống nếu không đổi)</label>
       <input type="password" name="password">
     </div>
-    <button type="submit" class="btn btn-primary">Cap nhat ho so</button>
+    <button type="submit" class="btn btn-primary">Cập nhật hồ sơ</button>
   </form>
 </div>
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

@@ -3,7 +3,7 @@ require_once __DIR__ . '/../config/config.php';
 requireLogin();
 
 $user = currentUser();
-$pageTitle = 'Tong quan';
+$pageTitle = 'Tổng quan';
 $activeNav = 'dashboard';
 
 if (isAdmin()) {
@@ -65,27 +65,27 @@ require_once __DIR__ . '/includes/header.php';
   <div class="stat-cards">
     <div class="stat-card">
       <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/></svg></div>
-      <strong><?= $totalProperties ?></strong><span>Tong bat dong san</span>
+      <strong><?= $totalProperties ?></strong><span>Tổng bất động sản</span>
     </div>
     <div class="stat-card">
       <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
-      <strong><?= $totalEmployees ?></strong><span>Nhan vien</span>
+      <strong><?= $totalEmployees ?></strong><span>Nhân viên</span>
     </div>
     <div class="stat-card">
       <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>
-      <strong><?= $totalSale ?></strong><span>Tin mua ban</span>
+      <strong><?= $totalSale ?></strong><span>Tin mua bán</span>
     </div>
     <div class="stat-card">
       <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
-      <strong><?= $totalRent ?></strong><span>Tin cho thue</span>
+      <strong><?= $totalRent ?></strong><span>Tin cho thuê</span>
     </div>
   </div>
 
   <div class="panel">
-    <div class="panel-head"><h2>Bat dong san theo nhan vien</h2></div>
+    <div class="panel-head"><h2>Bất động sản theo nhân viên</h2></div>
     <div class="table-wrap">
       <table class="data-table">
-        <thead><tr><th>Nhan vien</th><th>So bat dong san phu trach</th></tr></thead>
+        <thead><tr><th>Nhân viên</th><th>Số bất động sản phụ trách</th></tr></thead>
         <tbody>
         <?php foreach ($byAgent as $a): ?>
           <tr><td><?= e($a['full_name']) ?></td><td><?= (int)$a['total'] ?></td></tr>
@@ -98,46 +98,46 @@ require_once __DIR__ . '/includes/header.php';
   <div class="stat-cards">
     <div class="stat-card">
       <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4 8 4v14"/></svg></div>
-      <strong><?= $myTotal ?></strong><span>Bat dong san cua toi</span>
+      <strong><?= $myTotal ?></strong><span>Bất động sản của tôi</span>
     </div>
     <div class="stat-card">
       <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
-      <strong><?= $myAvailable ?></strong><span>Dang con hieu luc</span>
+      <strong><?= $myAvailable ?></strong><span>Đang còn hiệu lực</span>
     </div>
     <div class="stat-card">
       <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>
-      <strong><?= $mySale ?></strong><span>Tin mua ban</span>
+      <strong><?= $mySale ?></strong><span>Tin mua bán</span>
     </div>
     <div class="stat-card">
       <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
-      <strong><?= $myRent ?></strong><span>Tin cho thue</span>
+      <strong><?= $myRent ?></strong><span>Tin cho thuê</span>
     </div>
   </div>
 <?php endif; ?>
 
 <div class="panel">
   <div class="panel-head">
-    <h2><?= isAdmin() ? 'Bat dong san moi nhat' : 'Bat dong san cua toi' ?></h2>
-    <a href="<?= BASE_URL ?>/admin/properties.php" class="btn btn-outline btn-sm">Xem tat ca</a>
+    <h2><?= isAdmin() ? 'Bất động sản mới nhất' : 'Bất động sản của tôi' ?></h2>
+    <a href="<?= BASE_URL ?>/admin/properties.php" class="btn btn-outline btn-sm">Xem tất cả</a>
   </div>
   <div class="table-wrap">
     <table class="data-table">
       <thead>
         <tr>
-          <th>Tin dang</th><th>Loai</th><th>Gia</th><th>Trang thai</th><?php if (isAdmin()): ?><th>Nhan vien</th><?php endif; ?>
+          <th>Tin đăng</th><th>Loại</th><th>Giá</th><th>Trạng thái</th><?php if (isAdmin()): ?><th>Nhân viên</th><?php endif; ?>
         </tr>
       </thead>
       <tbody>
         <?php if (empty($recent)): ?>
-          <tr><td colspan="5">Chua co bat dong san nao.</td></tr>
+          <tr><td colspan="5">Chưa có bất động sản nào.</td></tr>
         <?php endif; ?>
         <?php foreach ($recent as $p): ?>
           <tr>
             <td><a href="<?= BASE_URL ?>/property-detail.php?slug=<?= urlencode($p['slug']) ?>" target="_blank"><?= e($p['title']) ?></a></td>
             <td><?= e($p['type_name']) ?></td>
             <td><?= e(formatPrice((float)$p['price'], $p['price_unit'])) ?></td>
-            <td><span class="status-pill status-<?= e($p['status']) ?>"><?= e($p['status']) ?></span></td>
-            <?php if (isAdmin()): ?><td><?= e($p['agent_name'] ?? 'Chua phan cong') ?></td><?php endif; ?>
+            <td><span class="status-pill status-<?= e($p['status']) ?>"><?= e(statusLabel($p['status'])) ?></span></td>
+            <?php if (isAdmin()): ?><td><?= e($p['agent_name'] ?? 'Chưa phân công') ?></td><?php endif; ?>
           </tr>
         <?php endforeach; ?>
       </tbody>
